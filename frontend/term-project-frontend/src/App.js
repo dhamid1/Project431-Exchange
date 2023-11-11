@@ -4,9 +4,23 @@ import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const handleMetaMaskLink = () => {}
+
+
+
 function App() {
+  const getPrice = () => {
+    axios.get('https://api.etherscan.io/api?module=stats&action=ethprice&apikey=2M6AYX86W1KF1V9KRMBHQEQ5U1BFGQ7D5S')
+    .then((res) => {setPrice(res.data.result.ethusd)})
+    
+  }
+  const handleMetaMaskLink = () => {}
+  const [price, setPrice] = useState([]);
+  useEffect(() => {
+    getPrice()
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
@@ -20,6 +34,7 @@ function App() {
           </Col>
         </Row>
         <Row><Col>Use Ethereum to buy tickets with airlines, MARC, Amtrak, and the Metro</Col></Row>
+        <Row><Col>View the price of Ethereum: ${price}</Col></Row>
       </header>
       
     </div>
