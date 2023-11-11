@@ -1,8 +1,7 @@
-import NavBar from './components/Navbar'
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Home from './pages'
 
-import './App.css';
+
+
+import '../App.css';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
@@ -30,15 +29,25 @@ function App() {
   }, [buttonShow]);
   return (
     <div className="App">
-      <Router>
-      <NavBar />
-      
       <header className="App-header">
-      <Routes>
-      <Route exact path='/' element={<><Home /></>} />
-      </Routes>
+        <p>
+          
+        </p>
+        <Row>
+          <Col className='text-nowrap'>ETHEREUM TRANSIT HUB</Col>
+          <Col>
+          {
+            buttonShow ? 
+            <Button variant="info" size='lg' onClick={handleMetaMaskLink} className="text-nowrap">Connect to MetaMask Wallet</Button> :
+            <p className='text-nowrap'>Successfully Connected to ETH Wallet</p>
+          }
+          </Col>
+        </Row>
+        <Row><Col>Use Ethereum to buy tickets with airlines, MARC, Amtrak, and the Metro</Col></Row>
+        <Row><Col>Current Price of Ethereum: ${price}</Col></Row>
+
       </header>
-      </Router>
+      
     </div>
   );
 }
