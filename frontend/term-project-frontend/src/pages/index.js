@@ -47,7 +47,7 @@ function App() {
           }
           </Col>
         </Row>
-        <Row><Col>Use Ethereum to buy tickets with airlines, MARC, Amtrak, and the Metro</Col></Row>
+        <Row><Col>Use Ethereum to buy tickets with MARC, Amtrak, and the Metro</Col></Row>
         <Row><Col>Current Price of Ethereum: ${price}</Col></Row>
 
       </header>

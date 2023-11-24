@@ -67,8 +67,8 @@ function Trans() {
             <Col>
                 {value/price} ETH
             </Col>
-            <Col>
-                Gas Price: {gasPrice*21000}  
+            <Col className='text-nowrap'>
+                Est. Gas Cost: {gasPrice*21000}  
                 <a href='https://www.investopedia.com/terms/g/gwei-ethereum.asp#:~:text=Key%20Takeaways-,Gwei%20is%20a%20denomination%20of%20the%20cryptocurrency%20ether%20(ETH)%2C,to%20specify%20Ethereum%20gas%20prices.'>
                     Gwei
                 </a>
