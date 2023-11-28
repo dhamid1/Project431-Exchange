@@ -6,7 +6,7 @@
   height: 40vmin;
   pointer-events: none;
 }
-.button-nowrap{
+.text-nowrap{
   white-space: nowrap;
 }
 
