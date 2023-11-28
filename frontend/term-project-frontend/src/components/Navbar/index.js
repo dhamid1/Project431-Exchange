@@ -4,8 +4,15 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import connectToMetaMask from "../../Connection/connectWallet";
+import Button from 'react-bootstrap/Button';
+
 
 const NavBar = () => {
+
+  const handleMetaMaskLink = async () => {
+    await connectToMetaMask();
+  };
     return(
         <>
       <Navbar className="App" bg="light" expand="lg">
@@ -21,7 +28,7 @@ const NavBar = () => {
         </Navbar.Collapse>
         <Navbar.Toggle/>
         <Navbar.Collapse className="justify-content-end">
-            <Nav.Link href="/">Login</Nav.Link>
+            <Button variant="info" onclick={handleMetaMaskLink}>Login</Button>
         </Navbar.Collapse>
       </Container>
       
