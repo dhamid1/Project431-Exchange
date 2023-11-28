@@ -1,9 +1,13 @@
 
+
 import NavBar from './components/Navbar'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Home from './pages'
 import TransactionPage from './pages/TransactionPage'
 // App.js
+
+
+import React, { useState } from 'react';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
