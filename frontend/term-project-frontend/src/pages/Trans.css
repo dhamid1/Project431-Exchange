@@ -1,0 +1,61 @@
+/* Trans.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Header styles */
+  header {
+    background-color: #DDD0C8; /* Beige */
+    color: #323232; /* Dark Grey */
+    padding: 20px;
+  }
+  
+  /* Tabs styles */
+  #uncontrolled-tab-example {
+    margin-top: 20px;
+  }
+  
+  /* Form styles */
+  fieldset {
+    border: 1px solid #323232; /* Dark Grey */
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  legend {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #323232; /* Dark Grey */
+  }
+  
+  /* Input styles */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  input,
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #323232; 
+    border-radius: 5px;
+    font-size: 14px;
+    color: #323232; 
+  }
+  
+  
+  .btn-primary {
+    background-color: #DDD0C8; 
+    border-color: #DDD0C8; 
+    color: #323232; 
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background-color: #323232; 
+    color: #DDD0C8; 
+  }
+  
+  
