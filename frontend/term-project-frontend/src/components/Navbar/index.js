@@ -24,6 +24,7 @@ const NavBar = () => {
             
             <Nav.Link href="/">Guide</Nav.Link>
             <Nav.Link href="/TransactionPage">Buy Tickets</Nav.Link>
+            <Nav.Link href="/SendMoney">Send Money</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Toggle/>

@@ -1,0 +1,46 @@
+/* Your CSS code */
+
+.container {
+    padding: 20px;
+  }
+  
+  .transaction-form {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+  
+  .form-title {
+    text-align: center;
+  }
+  
+  .form-input {
+    margin-bottom: 15px;
+  }
+  
+  .form-input label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .previous-transactions {
+    margin-top: 20px;
+    overflow: auto; /* Add this to add a scrollbar if transactions overflow */
+  }
+  
+  .transaction-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .transaction {
+    width: calc(33.33% - 20px); /* Adjust the width to fit within the container */
+    margin-right: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+  }
+  
+  /* Adjust styles as needed */
+  
