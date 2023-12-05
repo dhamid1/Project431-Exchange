@@ -10,6 +10,7 @@ import connectToMetaMask from '../Connection/connectWallet';
 
 
 
+
 function App() {
   const [isConnected, setIsConnected] = useState(false);
 
@@ -29,29 +30,39 @@ function App() {
   useEffect(() => {
     getPrice()
   }, [isConnected]);
+  
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          
-        </p>
-        <Row>
-          <Col className='text-nowrap'>ETHEREUM TRANSIT HUB</Col>
-          <Col>
-          {
-            !isConnected ? 
-            <Button variant="info" size='lg' onClick={handleMetaMaskLink} className="text-nowrap">Connect to MetaMask Wallet</Button> :
-            <p className='text-nowrap'>Successfully Connected to ETH Wallet</p>
-          }
-          </Col>
-        </Row>
-        <Row><Col>Use Ethereum to buy tickets with MARC, Amtrak, and the Metro</Col></Row>
-        <Row><Col>Current Price of Ethereum: ${price}</Col></Row>
-
+        <div className="video-container">
+          <video
+            autoPlay
+            loop
+            muted
+            className="video"
+          >
+            <source src="/ethereumVideo.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="overlay-container">
+            <h1>ETHEREUM TRANSIT HUB</h1>
+            <p>Elevate your travel game: book train and plane tickets seamlessly with Ethereum</p>
+            {!isConnected ? (
+              <Button variant="info" size='lg' onClick={handleMetaMaskLink} style={{ backgroundColor: 'rgb(255,255,0)', borderColor: 'rgb(255,255,0)' }}className="text-nowrap">
+                Connect to MetaMask Wallet
+              </Button>
+            ) : (
+              <p className='text-nowrap'>Successfully Connected to ETH Wallet</p>
+            )}
+            <p>Current Price of Ethereum: ${price}</p>
+          </div>
+        </div>
       </header>
-      
     </div>
   );
-}
-
+            }  
+ 
+  
+    
+  
 export default App;
