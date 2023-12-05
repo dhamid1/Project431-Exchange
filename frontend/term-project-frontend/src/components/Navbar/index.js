@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
+import './NavbarStyles.css';
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+
   const handleMetaMaskLink = async () => {
     try {
       const { ethereum } = window;
@@ -29,9 +36,27 @@ const NavBar = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log("Search term:", searchTerm);
+
+    if (searchTerm === "Guide") {
+      console.log("Navigating to Guide");
+      navigate("/");
+    } else if (searchTerm === "Buy Tickets") {
+      console.log("Navigating to Buy Tickets");
+      navigate("/TransactionPage");
+    } else if (searchTerm === "Send Money") {
+      console.log("Navigating to Send Money");
+      navigate("/SendMoney");
+    } else {
+      console.log("No match found");
+    }
+  };
+
   return (
     <>
-      <Navbar className="App" bg="light" expand="lg">
+      <Navbar className="App custom-navbar fixed-top" bg="light" expand="lg">
         <Container>
           <Navbar.Brand href="/">ETH Transit Hub</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -55,3 +80,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
