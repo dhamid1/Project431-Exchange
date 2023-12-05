@@ -302,6 +302,9 @@ function Trans() {
           </Tab>
         </Tabs>
       </header>
+      <footer>
+  <p>&copy; 2023 TransitHub. All rights reserved.</p>
+  </footer>
     </div>
   );
 }

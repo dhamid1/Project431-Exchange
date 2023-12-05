@@ -9,6 +9,8 @@ function SendMoney() {
   const [transactions, setTransactions] = useState([]);
   const [form, setForm] = useState({ receiver: '', amount: '', message: '' });
 
+
+
   const contractAddress = "0x65688a2b6E54ACB5E23Fa79669B4258Db23b4780";
   const contractABI = abi.abi;
 
@@ -145,6 +147,9 @@ return (
           ))}
         </div>
       </div>
+      <footer>
+  <p>&copy; 2023 TransitHub. All rights reserved.</p>
+  </footer>
     </div>
   );
   
