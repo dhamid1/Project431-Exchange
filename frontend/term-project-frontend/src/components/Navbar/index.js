@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
+=======
+import React from "react";
+//bootstrap dependencies
+>>>>>>> parent of 0e83633 (Homepage)
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -10,8 +15,11 @@ import Button from 'react-bootstrap/Button';
 
 
 const NavBar = () => {
+<<<<<<< HEAD
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+=======
+>>>>>>> parent of 0e83633 (Homepage)
 
   const handleMetaMaskLink = async () => {
     try {
@@ -35,6 +43,7 @@ const NavBar = () => {
       console.error("Failed to connect to MetaMask:", error);
     }
   };
+<<<<<<< HEAD
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -81,3 +90,29 @@ const NavBar = () => {
 
 export default NavBar;
 
+=======
+    return(
+        <>
+      <Navbar className="App" bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand href="/">ETH Transit Hub</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            
+            <Nav.Link href="/">Guide</Nav.Link>
+            <Nav.Link href="/TransactionPage">Buy Tickets</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+        <Navbar.Toggle/>
+        <Navbar.Collapse className="justify-content-end">
+            <Button variant="info" onclick={handleMetaMaskLink}>Login</Button>
+        </Navbar.Collapse>
+      </Container>
+      
+    </Navbar>
+        </>
+    );
+};
+export default NavBar
+>>>>>>> parent of 0e83633 (Homepage)
