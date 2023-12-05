@@ -1,52 +1,45 @@
-
-
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";  
+import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import connectToMetaMask from "../../Connection/connectWallet";
 import Button from 'react-bootstrap/Button';
 import './NavbarStyles.css';
 
 const NavBar = () => {
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleMetaMaskLink = async () => {
-    await connectToMetaMask();
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        alert("MetaMask not detected. Please install MetaMask.");
+        return;
+      }
+
+      // Request account access if not already authorized
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+
+      if (accounts.length > 0) {
+        console.log("MetaMask connected:", accounts[0]);
+        // You can do additional logic after connecting, e.g., update user state
+      } else {
+        console.log("MetaMask connection canceled.");
+      }
+    } catch (error) {
+      console.error("Failed to connect to MetaMask:", error);
+    }
   };
-<<<<<<< Updated upstream
-    return(
-        <>
-      <Navbar className="App" bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand href="/">ETH Transit Hub</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            
-            <Nav.Link href="/">Guide</Nav.Link>
-            <Nav.Link href="/TransactionPage">Buy Tickets</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-        <Navbar.Toggle/>
-        <Navbar.Collapse className="justify-content-end">
-            <Button variant="info" onclick={handleMetaMaskLink}>Login</Button>
-        </Navbar.Collapse>
-      </Container>
-      
-    </Navbar>
-        </>
-    );
-=======
+
   const handleSearch = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     console.log("Search term:", searchTerm);
-  
+
     if (searchTerm === "Guide") {
       console.log("Navigating to Guide");
       navigate("/");
@@ -60,9 +53,7 @@ const NavBar = () => {
       console.log("No match found");
     }
   };
-  
-  
-  
+
   return (
     <>
       <Navbar className="App custom-navbar fixed-top" bg="light" expand="lg">
@@ -72,32 +63,21 @@ const NavBar = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="/">Guide</Nav.Link>
+              <Nav.Link href="/About">About</Nav.Link>
               <Nav.Link href="/TransactionPage">Buy Tickets</Nav.Link>
               <Nav.Link href="/SendMoney">Send Money</Nav.Link>
+              <Nav.Link href="/Contact">Contact</Nav.Link>
             </Nav>
-            <Form className="form-inline my-2 my-lg-0 ml-auto">
-              <FormControl
-                type="search"
-                placeholder="Search"
-                className="mr-sm-2"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <Button variant="outline-success" type="submit" onClick={handleSearch}>
-                Search
-              </Button>
-            </Form>
+          </Navbar.Collapse>
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            <Button variant="info" onClick={handleMetaMaskLink}>Login</Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>
     </>
   );
->>>>>>> Stashed changes
 };
 
 export default NavBar;
-
-
-
-
 
