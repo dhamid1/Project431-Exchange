@@ -4,7 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tabs, Tab, Row, Col, Form, Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import './Trans.css';
+
+import Metro_ABI from './../utils/Metro_ABI.json'
 import axios from 'axios';
+const ethers = require("ethers");
+
+
 
 function Ticket({ ticket, onBuyClick }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -32,6 +37,7 @@ function Ticket({ ticket, onBuyClick }) {
   );
 }
 
+
 function Trans() {
   const [selectedTab, setSelectedTab] = useState(null);
   const [tripType, setTripType] = useState('one-way');
@@ -44,6 +50,17 @@ function Trans() {
   const [numPassengers, setNumPassengers] = useState(1);
   const [metroCardNumber, setMetroCardNumber] = useState('');
   const [refillAmount, setRefillAmount] = useState(0);
+
+  const [metroAmount, setMetroAmount] = useState(0);
+  const [currentAccount, setCurrentAccount] = useState(null);
+  const getPrice = () => {
+    axios
+      .get('https://api.etherscan.io/api?module=stats&action=ethprice&apikey=2M6AYX86W1KF1V9KRMBHQEQ5U1BFGQ7D5S')
+      .then((res) => {
+        return res.data.result.ethusd;
+      })
+  };
+
   const [ticketPrices, setTicketPrices] = useState([]);
   const [ticket, setTicket] = useState(null);
   const [ethPrice, setEthPrice] = useState(null);
@@ -62,6 +79,7 @@ function Trans() {
 
     fetchEthPrice();
   }, []);
+
   const renderFlightFields = () => (
     <>
       <Form.Group controlId="departingFrom">
@@ -240,15 +258,7 @@ function Trans() {
 
   const renderMetroFields = () => (
     <>
-      <Form.Group controlId="metroCardNumber">
-        <Form.Label>Card Number:</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter metro card number"
-          value={metroCardNumber}
-          onChange={(e) => setMetroCardNumber(e.target.value)}
-        />
-      </Form.Group>
+      <p>Current Balance: {metroAmount}</p>
       <Form.Group controlId="refillAmount">
         <Form.Label>Refill Amount:</Form.Label>
         <Form.Control
@@ -256,6 +266,7 @@ function Trans() {
           value={refillAmount}
           onChange={(e) => setRefillAmount(e.target.value)}
         />
+        <Button onClick={handleMetro}>Submit</Button>
       </Form.Group>
     </>
   );
@@ -327,6 +338,27 @@ function Trans() {
       refillAmount,
     });
   };
+  const handleMetro = async () => {
+    const address = "0x8A4e87b4344120F4Fc40D3FCaffF573f2688A26B"; // insert contract address once deployed
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner()
+    const box =  new ethers.Contract(address, Metro_ABI, provider);
+    const Box = box.connect(signer)
+    console.log('submitting metro')
+    try {
+    const Accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const account = Accounts[0];
+    setCurrentAccount(account);
+    
+    await Box.fillCard({ value: await refillAmount/getPrice()});
+    console.log(await Box.balance());
+
+    }
+    catch (error) {
+      console.error('Error connecting to MetaMask:', error);
+      console.log('No ETH wallet detected');
+    }
+  }
 
   return (
     <div>
