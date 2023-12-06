@@ -32,7 +32,7 @@ function SendMoney() {
         const account = accounts[0];
         console.log("Found an authorized account:", account);
         setCurrentAccount(account);
-        const provider = new ethers.BrowserProvider(ethereum);
+        const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = await provider.getSigner();
         const contract = new ethers.Contract(contractAddress, contractABI, signer);
         const txs = await contract.getAllEtherTransactions();
@@ -79,7 +79,7 @@ function SendMoney() {
       return;
     }
   
-    const provider = new ethers.BrowserProvider(ethereum);
+    const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = await provider.getSigner();
     const contract = new ethers.Contract(contractAddress, contractABI, signer);
   
@@ -95,7 +95,7 @@ function SendMoney() {
       }
   
       try {
-        const sendEtherTxn = await contract.sendEther(receiver, ethers.parseEther(amount), message);
+        const sendEtherTxn = await contract.sendEther(receiver, ethers.utils.parseEther(amount), message);
         console.log("Waiting for transaction to be mined...", sendEtherTxn.hash);
         await sendEtherTxn.wait();
         console.log("Transaction mined: ", sendEtherTxn.hash);
@@ -140,7 +140,7 @@ return (
             <div className="transaction" key={i}>
               <p>From: {tx.sender.substring(0, 6)}</p>
               <p>To: {tx.receiver.substring(0, 6)}</p>
-              <p>Amount: {ethers.formatEther(tx.amount).substring(0, 6)}</p>
+              <p>Amount: {ethers.utils.formatEther(tx.amount).substring(0, 6)}</p>
               <p>Message: {tx.message}</p>
               <p>Timestamp: {new Date(Number(tx.timestamp) * 1000).toLocaleString()}</p>
             </div>
