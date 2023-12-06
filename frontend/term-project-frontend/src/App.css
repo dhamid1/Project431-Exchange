@@ -70,3 +70,86 @@
 .navbar {
   height: 100 px;
 }
+
+.chatbot-container {
+  max-width: 1000px;
+  width: 700px;
+  margin: 0 auto;
+  margin-top: 115px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 80vh; /* Ensure the chatbot container takes the full height of the viewport */
+  position: relative; /* Ensure relative positioning for child elements */
+}
+
+.ask-ai-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.chat-log {
+  flex: 1;
+  max-height: calc(100% - 100px); /* Adjust the height to leave space for the input-form */
+  overflow-y: auto;
+  color: black;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 2px;
+  border-radius: 8px;
+  font-size: 17px;
+  text-align: left;
+  
+}
+
+.user {
+  background-color: #eee;
+}
+
+.bot {
+  background-color: #d4edda;
+}
+
+.typing {
+  font-style: italic;
+}
+
+.input-form {
+  display: flex;
+  position: absolute;
+  bottom: 5px; /* Adjust the bottom value to raise the input form */
+  width: 95%;
+  background-color: #282c34;
+  padding: 5px;
+  border-top: 1px solid #ccc;
+  box-sizing: border-box; /* Ensure padding is included in the height calculation */
+  border-radius: 8px; /* Add border-radius for rounded corners */
+}
+
+.input-form input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc; /* Add border to the input for a clean look */
+  border-radius: 4px 0 0 4px;
+  outline: none; /* Remove the default input outline */
+}
+
+.input-form button {
+  padding: 8px;
+  background-color: #1d80ea; /* Set button background color */
+  color: #fff; /* Set button text color */
+  border: none; /* Remove button border */
+  border-radius: 0 4px 4px 0;
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s; /* Add transition effect */
+  font-size: 20px;
+}
+
+.input-form button:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}

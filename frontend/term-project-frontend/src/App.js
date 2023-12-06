@@ -14,6 +14,7 @@ import React, { useState } from 'react';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Chatbot from './pages/Chatbot';
 
 
 
@@ -35,6 +36,7 @@ function App() {
       <Route exact path='/TransactionPage' element={<TransactionPage />}/>
       <Route exact path='/SendMoney' element={<SendMoney />}/>
       <Route exact path='/Contact' element={<Contact />}/>
+      <Route exact path='/Chatbot' element={<Chatbot />}/>
       </Routes>
       </header>
       </Router>
