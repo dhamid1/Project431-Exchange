@@ -1,9 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tabs, Tab, Row, Col, Form, Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import './Trans.css';
+
+import Metro_ABI from './../utils/Metro_ABI.json'
+import axios from 'axios';
+const ethers = require("ethers");
+
+
+
+function Ticket({ ticket, onBuyClick }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      className="ticket"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <h2>{ticket.class}:   ETH {ticket.price}</h2>
+      <p>
+        Departing from: {ticket.departingFrom}, Returning to: {ticket.returningTo}
+      </p>
+      <p>
+        Departure date: {ticket.departingDate.toLocaleDateString()},{' '}
+        Returning date: {ticket.returningDate.toLocaleDateString()}
+      </p>
+      {isHovered && (
+        <Button variant="success" onClick={onBuyClick}>
+          Buy
+        </Button>
+      )}
+    </div>
+  );
+}
+
 
 function Trans() {
   const [selectedTab, setSelectedTab] = useState(null);
@@ -17,6 +50,35 @@ function Trans() {
   const [numPassengers, setNumPassengers] = useState(1);
   const [metroCardNumber, setMetroCardNumber] = useState('');
   const [refillAmount, setRefillAmount] = useState(0);
+
+  const [metroAmount, setMetroAmount] = useState(0);
+  const [currentAccount, setCurrentAccount] = useState(null);
+  const getPrice = () => {
+    axios
+      .get('https://api.etherscan.io/api?module=stats&action=ethprice&apikey=2M6AYX86W1KF1V9KRMBHQEQ5U1BFGQ7D5S')
+      .then((res) => {
+        return res.data.result.ethusd;
+      })
+  };
+
+  const [ticketPrices, setTicketPrices] = useState([]);
+  const [ticket, setTicket] = useState(null);
+  const [ethPrice, setEthPrice] = useState(null);
+
+  useEffect(() => {
+    const fetchEthPrice = async () => {
+      try {
+        const response = await axios.get(
+          'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'
+        );
+        setEthPrice(response.data.ethereum.usd);
+      } catch (error) {
+        console.error('Error fetching Ethereum price:', error);
+      }
+    };
+
+    fetchEthPrice();
+  }, []);
 
   const renderFlightFields = () => (
     <>
@@ -108,7 +170,7 @@ function Trans() {
 
   const renderTrainFields = () => (
     <>
-      <Form.Group controlId="departingFrom">
+      <Form.Group controlId="departingFromTrain">
         <Form.Control
           type="text"
           placeholder="From"
@@ -116,7 +178,7 @@ function Trans() {
           onChange={(e) => setDepartingFrom(e.target.value)}
         />
       </Form.Group>
-      <Form.Group controlId="returningTo">
+      <Form.Group controlId="returningToTrain">
         {tripType === 'two-way' && (
           <Form.Control
             type="text"
@@ -128,7 +190,7 @@ function Trans() {
       </Form.Group>
       <Row>
         <Col>
-          <Form.Group controlId="tripType">
+          <Form.Group controlId="tripTypeTrain">
             <Form.Label>Trip Type</Form.Label>
             <Form.Control
               as="select"
@@ -141,7 +203,7 @@ function Trans() {
           </Form.Group>
         </Col>
         <Col>
-          <Form.Group controlId="departingDate">
+          <Form.Group controlId="departingDateTrain">
             <Form.Label>Departure</Form.Label>
             <DatePicker
               selected={departingDate}
@@ -153,7 +215,7 @@ function Trans() {
         </Col>
         {tripType === 'two-way' && (
           <Col>
-            <Form.Group controlId="returningDate">
+            <Form.Group controlId="returningDateTrain">
               <Form.Label>Return</Form.Label>
               <DatePicker
                 selected={returningDate}
@@ -167,7 +229,7 @@ function Trans() {
       </Row>
       <Row>
         <Col>
-          <Form.Group controlId="numPassengers">
+          <Form.Group controlId="numPassengersTrain">
             <Form.Label>Number of Passengers:</Form.Label>
             <Form.Control
               type="number"
@@ -177,7 +239,7 @@ function Trans() {
           </Form.Group>
         </Col>
         <Col>
-          <Form.Group controlId="classType">
+          <Form.Group controlId="classTypeTrain">
             <Form.Label>Class Type:</Form.Label>
             <Form.Control
               as="select"
@@ -196,15 +258,7 @@ function Trans() {
 
   const renderMetroFields = () => (
     <>
-      <Form.Group controlId="metroCardNumber">
-        <Form.Label>Card Number:</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter metro card number"
-          value={metroCardNumber}
-          onChange={(e) => setMetroCardNumber(e.target.value)}
-        />
-      </Form.Group>
+      <p>Current Balance: {metroAmount}</p>
       <Form.Group controlId="refillAmount">
         <Form.Label>Refill Amount:</Form.Label>
         <Form.Control
@@ -212,20 +266,58 @@ function Trans() {
           value={refillAmount}
           onChange={(e) => setRefillAmount(e.target.value)}
         />
+        <Button onClick={handleMetro}>Submit</Button>
       </Form.Group>
     </>
   );
+  
 
-  const handleFlightSearch = () => {
-    console.log('Performing flight search:', {
-      departingFrom,
-      returningTo,
-      departingDate,
-      returningDate,
-      numTravelers,
-      classType,
-    });
-    // Add your flight search logic here
+  
+  const handleFlightSearch = async () => {
+    try {
+      // Fetch the current Ethereum to USD exchange rate from CoinGecko API
+      const response = await axios.get(
+        'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'
+      );
+      const ethPrice = response.data.ethereum.usd;
+  
+      // Simulate API call to fetch ticket prices (replace with your actual API call)
+      // For demonstration purposes, generate random prices
+      const simulatedTicketPrices = [
+        { class: 'Economy', price: Math.floor(Math.random() * 500) + 300 },
+        { class: 'Business', price: Math.floor(Math.random() * 800) + 600 },
+        { class: 'First Class', price: Math.floor(Math.random() * 1200) + 1000 },
+      ];
+  
+      // Convert ticket prices to Ethereum
+      const ticketPricesInEth = simulatedTicketPrices.map((ticket) => ({
+        ...ticket,
+        price: (ticket.price / ethPrice).toFixed(4), // Convert to Ethereum and round to 4 decimal places
+      }));
+  
+      // Select a random ticket for demonstration
+      const randomTicketIndex = Math.floor(Math.random() * ticketPricesInEth.length);
+      const selectedTicket = ticketPricesInEth[randomTicketIndex];
+  
+      // Set the correct classType for the selected ticket
+      setClassType(selectedTicket.class.toLowerCase());
+  
+      // Store the selected ticket in the state
+      setTicket({
+        ...selectedTicket,
+        departingFrom,
+        returningTo,
+        departingDate,
+        returningDate,
+        numTravelers,
+        classType, // Use the correct classType here
+      });
+  
+      // Store the converted ticket prices in the state
+      setTicketPrices(ticketPricesInEth);
+    } catch (error) {
+      console.error('Error fetching Ethereum price:', error);
+    }
   };
 
   const handleTrainSearch = () => {
@@ -245,8 +337,28 @@ function Trans() {
       metroCardNumber,
       refillAmount,
     });
-    // Add your metro search logic here
   };
+  const handleMetro = async () => {
+    const address = "0x8A4e87b4344120F4Fc40D3FCaffF573f2688A26B"; // insert contract address once deployed
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner()
+    const box =  new ethers.Contract(address, Metro_ABI, provider);
+    const Box = box.connect(signer)
+    console.log('submitting metro')
+    try {
+    const Accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const account = Accounts[0];
+    setCurrentAccount(account);
+    
+    await Box.fillCard({ value: await refillAmount/getPrice()});
+    console.log(await Box.balance());
+
+    }
+    catch (error) {
+      console.error('Error connecting to MetaMask:', error);
+      console.log('No ETH wallet detected');
+    }
+  }
 
   return (
     <div>
@@ -271,6 +383,16 @@ function Trans() {
                 <Button variant="primary" onClick={handleFlightSearch}>
                   Search Flights
                 </Button>
+
+                
+                {ticket && (
+                  <Ticket
+                    ticket={ticket}
+                    onBuyClick={() => console.log('Buy clicked for flight', ticket)}
+                  />
+                )}
+
+               
               </Col>
             </Row>
           </Tab>
@@ -303,10 +425,11 @@ function Trans() {
         </Tabs>
       </header>
       <footer>
-  <p>&copy; 2023 TransitHub. All rights reserved.</p>
-  </footer>
+        <p>&copy; 2023 TransitHub. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
 
 export default Trans;
+
