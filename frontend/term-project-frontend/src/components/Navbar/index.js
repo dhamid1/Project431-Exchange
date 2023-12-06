@@ -60,6 +60,7 @@ const NavBar = () => {
               <Nav.Link href="/TransactionPage">Buy Tickets</Nav.Link>
               <Nav.Link href="/SendMoney">Send Money</Nav.Link>
               <Nav.Link href="/Contact">Contact</Nav.Link>
+              <Nav.Link href="/Chatbot">Ask AI</Nav.Link>
             </Nav>
             <Form className="form-inline my-2 my-lg-0 ml-auto">
               <FormControl
