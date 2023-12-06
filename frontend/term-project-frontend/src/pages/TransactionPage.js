@@ -10,7 +10,6 @@ import axios from 'axios';
 const ethers = require("ethers");
 
 
-import axios from 'axios';
 
 function Ticket({ ticket, onBuyClick }) {
   const [isHovered, setIsHovered] = useState(false);
